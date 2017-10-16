@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Hello, WebVR! - A-Frame</title>
+  <meta name="description" content="Hello, WebVR! - A-Frame">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+
+
+  <script>
+
+    AFRAME.registerComponent('box', {
+init: function () {
+  // Set up initial state and variables.
+  this.intersection = null;
+  // Bind methods.
+  this.onIntersection = AFRAME.utils.bind(this.onIntersection, this);
+  // Attach event listener.
+  this.el.addEventListener('raycaster-intersection', this.onIntersection);
+}
+
+
+                             });
+      AFRAME.registerComponent('change-color-on-hover', {
+      
+  schema: {
+    color: {default: 'red'}
+  },
+  init: function () {
+    var video1 = document.querySelector("#videosphere1");
+    video1.setAttribute("visible",true);
+
+
+    var video2 = document.querySelector("#videosphere2");
+    video2.setAttribute("visible",false);
+
+
+
+
+    var data = this.data;
+    var el = this.el;  // <a-box>
+    var defaultColor = el.getAttribute('material').color;
+    el.addEventListener('mouseenter', function () {
+      el.setAttribute('color', data.color);
+      
+        video2.setAttribute("visible",!video2.getAttribute("visible"));
+      video1.setAttribute("visible",!video1.getAttribute("visible"));
+
+
+    });
+//     el.addEventListener('mouseleave', function () {
+//       el.setAttribute('color', defaultColor);
+//       video2.setAttribute("visible",false);
+//       video1.setAttribute("visible",true);
+
+
+//     });
+  }
+});
+</script>
+
+
+
+</head>
+<body>
+  <a-scene>
+
+
+          <a-assets>
+      <video id="video1" src="https://cdn.glitch.com/63bb215a-88e3-456a-8c66-7db8f902801f%2Fvideo1.mp4?1508157260621"
+             autoplay loop crossorigin="anonymous" webkit-playsinline and playsinline ></video>
+
+
+            <video id="video2" src="https://cdn.glitch.com/63bb215a-88e3-456a-8c66-7db8f902801f%2Fvideo2.mp4?1508157276615"
+             autoplay loop crossorigin="anonymous" webkit-playsinline and playsinline ></video>
+
+
+
+    </a-assets>
+                        <a-videosphere id="videosphere2" src="#video2" rotation="0 180 0"></a-videosphere>
+                        <a-videosphere tick id="videosphere1" src="#video1" rotation="0 180 0"></a-videosphere>
+
+
+
+      <a-box visible="true" color="#EF2D5E" position="2 30 -40" change-color-on-hover="color: blue">
+<!--       <a-animation attribute="visible" begin="5000" to="true"></a-animation> -->
+    </a-box>
+    
+
+    
+  <a-camera><a-cursor >
+
+</a-cursor></a-camera>
+
+
+
+  </a-scene>
+  </body>
+</html>
